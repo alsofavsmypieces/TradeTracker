@@ -80,7 +80,7 @@ export default function ExportButton({ trades, stats, isDark = true }: ExportBut
                 { 'Metric': 'Win Rate %', 'Value': stats.win_rate_pct.toFixed(2) },
                 { 'Metric': 'Profit Factor', 'Value': stats.profit_factor.toFixed(2) },
                 { 'Metric': 'Total Profit', 'Value': stats.total_profit.toFixed(2) },
-                { 'Metric': 'Total Loss', 'Value': stats.total_loss.toFixed(2) },
+                { 'Metric': 'Total Loss', 'Value': stats.gross_loss.toFixed(2) },
                 { 'Metric': 'Average Win', 'Value': stats.avg_win.toFixed(2) },
                 { 'Metric': 'Average Loss', 'Value': stats.avg_loss.toFixed(2) },
                 { 'Metric': 'Largest Win', 'Value': stats.largest_win.toFixed(2) },
