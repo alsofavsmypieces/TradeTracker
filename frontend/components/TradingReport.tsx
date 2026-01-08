@@ -412,8 +412,8 @@ export default function TradingReport({ trades, stats, initialBalance, isDark = 
             netPL,
             totalSwaps,
             totalCommissions,
-            sharpeRatio: stats.sharpe_ratio,
-            profitFactor: stats.profit_factor,
+            sharpeRatio: stats?.sharpe_ratio || 0,
+            profitFactor: stats?.profit_factor || 0,
             recoveryFactor,
             maxDrawdown: maxDD,
             maxDepositLoad: (maxDD / 100) * 400, // Approximate
@@ -738,8 +738,8 @@ export default function TradingReport({ trades, stats, initialBalance, isDark = 
                         />
                         <ComparisonBar
                             label="Win Rate %"
-                            longValue={stats.long_win_rate}
-                            shortValue={stats.short_win_rate}
+                            longValue={stats?.long_win_rate || 0}
+                            shortValue={stats?.short_win_rate || 0}
                             isDark={isDark}
                             formatFn={(v) => `${v.toFixed(1)}%`}
                         />
