@@ -315,7 +315,7 @@ export default function AISidePanel({
     }
 
     return (
-        <div className={`${isExpanded ? 'w-[600px]' : 'w-[400px]'} ${bgClass} border-l ${borderClass} flex flex-col h-full transition-all duration-300`}>
+        <div className={`${isExpanded ? 'w-[95vw] sm:w-[600px]' : 'w-[85vw] sm:w-[400px]'} ${bgClass} border-l ${borderClass} flex flex-col h-full transition-all duration-300 shadow-2xl lg:shadow-none`}>
             {/* Header */}
             <div className={`flex items-center justify-between px-4 py-3 border-b ${borderClass}`}>
                 <div className="flex items-center gap-2">
@@ -330,6 +330,12 @@ export default function AISidePanel({
                     </div>
                 </div>
                 <div className="flex items-center gap-1">
+                    <button
+                        onClick={onToggleCollapse}
+                        className={`lg:hidden p-2 rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-gray-200'} transition text-rose-500`}
+                    >
+                        <Minimize2 size={18} />
+                    </button>
                     <button
                         onClick={createNewSession}
                         className={`p-2 rounded-lg ${isDark ? 'hover:bg-slate-800' : 'hover:bg-gray-200'} transition`}

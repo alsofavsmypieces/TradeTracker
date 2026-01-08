@@ -27,8 +27,6 @@ import OpenPositions from '@/components/OpenPositions';
 import RiskModel from '@/components/RiskModel';
 import NewsCalendar from '@/components/NewsCalendar';
 import TradingReport from '@/components/TradingReport';
-import CurrencyToggle from '@/components/CurrencyToggle';
-import { useCurrency } from '@/contexts/CurrencyContext';
 import { statsApi, mt5Api } from '@/lib/api';
 import { Trade, Stats, Account, PeriodStats } from '@/lib/types';
 import { saveCredentials, loadCredentials, DEFAULT_SERVER, saveSettings, loadSettings } from '@/lib/storage';
@@ -53,14 +51,22 @@ import {
   Calculator,
   Activity,
   Shield,
-  FileText
+  FileText,
+  Bot
 } from 'lucide-react';
 
 type TabType = 'overview' | 'daily' | 'chart' | 'history' | 'analysis' | 'risk' | 'calendar' | 'tools' | 'positions' | 'report';
 
 export default function Dashboard() {
-  // Currency context
-  const { formatCurrency, symbol } = useCurrency();
+  // Helper to format currency
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value);
+  };
 
   // State
   const [isDark, setIsDark] = useState(true);
@@ -268,9 +274,6 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {/* Currency Toggle */}
-              <CurrencyToggle isDark={isDark} />
-
               <button
                 onClick={() => setIsDark(!isDark)}
                 className={`p-2 rounded-full transition-all duration-300 ${isDark ? 'hover:bg-slate-800 text-slate-400 hover:text-indigo-400' : 'hover:bg-gray-100 text-gray-500 hover:text-amber-500'}`}
@@ -407,12 +410,12 @@ export default function Dashboard() {
 
           {/* Tabs */}
           {stats && (
-            <div className={`flex gap-1 p-1 rounded-xl mb-6 ${isDark ? 'bg-slate-900/50' : 'bg-gray-100'}`}>
+            <div className={`flex gap-1 p-1 rounded-xl mb-6 overflow-x-auto hide-scrollbar ${isDark ? 'bg-slate-900/50' : 'bg-gray-100'}`}>
               {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === tab.id
+                  className={`flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all whitespace-nowrap ${activeTab === tab.id
                     ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
                     : isDark
                       ? 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
@@ -426,9 +429,11 @@ export default function Dashboard() {
             </div>
           )}
 
+          {/* ... (rest of the content) ... */}
+
           {/* Empty State */}
           {!stats && !loading && (
-            <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="flex flex-col items-center justify-center py-24 text-center px-4">
               <div className={`p-6 rounded-full mb-6 ${isDark ? 'bg-slate-800/50' : 'bg-gray-100'}`}>
                 <LayoutDashboard size={48} className={isDark ? 'text-slate-600' : 'text-gray-400'} />
               </div>
@@ -443,7 +448,10 @@ export default function Dashboard() {
 
           {/* Dashboard Content */}
           {stats && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 lg:pb-0">
+              {/* Added pb-20 for mobile bottom spacing */}
+
+              {/* ... content ... */}
 
               {/* Overview Tab */}
               {activeTab === 'overview' && (
@@ -640,20 +648,33 @@ export default function Dashboard() {
               )}
             </div>
           )}
+
+          {/* Floating AI Button (Mobile Only) */}
+          {isConnected && aiPanelCollapsed && (
+            <button
+              onClick={() => setAiPanelCollapsed(false)}
+              className="fixed bottom-6 right-6 z-50 p-3 bg-indigo-600 text-white rounded-full shadow-xl hover:bg-indigo-700 transition lg:hidden animate-in zoom-in duration-300"
+            >
+              <Bot size={24} />
+            </button>
+          )}
         </main>
       </div>
 
-      {/* AI Side Panel */}
+      {/* AI Side Panel - Responsive Container */}
       {isConnected && (
-        <AISidePanel
-          stats={stats}
-          trades={trades}
-          account={account}
-          periods={periods}
-          isDark={isDark}
-          isCollapsed={aiPanelCollapsed}
-          onToggleCollapse={() => setAiPanelCollapsed(!aiPanelCollapsed)}
-        />
+        <div className={`fixed inset-y-0 right-0 z-[60] lg:relative lg:inset-auto lg:z-auto transition-transform duration-300 ${aiPanelCollapsed ? 'translate-x-full lg:translate-x-0' : 'translate-x-0'
+          }`}>
+          <AISidePanel
+            stats={stats}
+            trades={trades}
+            account={account}
+            periods={periods}
+            isDark={isDark}
+            isCollapsed={aiPanelCollapsed}
+            onToggleCollapse={() => setAiPanelCollapsed(!aiPanelCollapsed)}
+          />
+        </div>
       )}
     </div>
   );
