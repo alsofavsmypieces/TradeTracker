@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.env
+*.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.log
+*.sqlite
+*.db
+
+# Backend specific
+backend/__pycache__/
+backend/.env
+
+# Frontend specific  
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env*
+frontend/.vercel
+
+# Reports (may contain sensitive data)
+reports/*.html
+reports/*.pdf
+
+# Jupyter
+.ipynb_checkpoints/
+
+# API Keys and secrets
+*.pem
+*.key
+secrets.json
+config.local.py
