@@ -56,9 +56,9 @@ export default function MonthlyChart({ data, isDark = true }: MonthlyChartProps)
                             color: colors.tooltipText,
                             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                         }}
-                        formatter={(value: number) => [
-                            <span className={value >= 0 ? "text-emerald-500 font-bold" : "text-rose-500 font-bold"}>
-                                {value > 0 ? '+' : ''}{value.toFixed(2)}%
+                        formatter={(value: any) => [
+                            <span className={Number(value) >= 0 ? "text-emerald-500 font-bold" : "text-rose-500 font-bold"}>
+                                {Number(value) > 0 ? '+' : ''}{Number(value).toFixed(2)}%
                             </span>,
                             'Return'
                         ]}
