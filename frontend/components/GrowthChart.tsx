@@ -78,7 +78,7 @@ export default function GrowthChart({ trades, initialBalance, isDark = true }: G
                             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                         }}
                         labelStyle={{ color: colors.text, marginBottom: '0.25rem', fontSize: '11px' }}
-                        formatter={(value: number) => [<span className="font-bold text-emerald-500">+{value.toFixed(2)}%</span>, 'Gain']}
+                        formatter={(value: any) => [<span className="font-bold text-emerald-500">+{Number(value).toFixed(2)}%</span>, 'Gain']}
                     />
                     <Area
                         type="monotone"
